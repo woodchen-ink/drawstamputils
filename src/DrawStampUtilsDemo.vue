@@ -1,41 +1,6 @@
 <template>
-  <!-- 添加法律提示弹窗 -->
-  <div v-if="showLegalDialog" class="legal-dialog-overlay">
-    <div class="legal-dialog">
-      <h3>⚠️ 法律提示</h3>
-      <div class="legal-content">
-        <p><strong>请确认您已知悉并同意以下内容：</strong></p>
-        <ol>
-          <li>本工具仅供学习和技术研究使用</li>
-          <li>使用本工具生成的任何图片请勿用于任何非法用途</li>
-          <li>因违法使用本工具造成的任何法律责任和损失，需自行承担</li>
-          <li>如果使用本工具请遵守相关法律法规</li>
-        </ol>
-      </div>
-      <div class="dialog-buttons">
-        <button @click="cancelSave" class="cancel-button">取消</button>
-        <button @click="confirmSave" class="confirm-button">我已知悉并同意</button>
-      </div>
-    </div>
-  </div>
 
   <div class="container">
-    <!-- 修改法律免责说明 -->
-    <div class="legal-disclaimer">
-      <div class="disclaimer-content">
-        <div class="warning-icon">⚠️</div>
-        <div class="warning-text">
-          <h3>安全警告</h3>
-          <p><strong>本项目仅供学习和参考！严禁用于任何非法用途！</strong></p>
-          <p>
-            1. 本项目开源代码仅用于技术学习和交流。<br>
-            2. 使用本项目生成的任何图片请勿用于任何非法用途。<br>
-            3. 因违法使用本项目造成的任何法律责任和损失，需自行承担，与本项目无关。<br>
-            4. 如果使用本项目请遵守相关法律法规。
-          </p>
-        </div>
-      </div>
-    </div>
 
     <div class="editor-controls" ref="editorControls">
       <!-- 顶部固定按钮 -->
@@ -735,7 +700,6 @@ const roughEdgeHeight = ref(5) // 毛边高度，单位为毫米
 const roughEdgeProbability = ref(0.5) // 毛边概率
 const roughEdgeShift = ref(8) // 毛边偏移
 const roughEdgePoints = ref(360) // 毛边点数
-const showLegalDialog = ref(false) // 是否显示法律提示弹窗
 // 添加印章类型列表的响式数据
 const stampTypeList = ref<IStampType[]>([
   {
@@ -919,7 +883,6 @@ const removeCompany = (index: number) => {
 }
 
 const saveStampAsPNG = () => {
-  showLegalDialog.value = true
 }
 
 const drawStampWidth = ref(40)
@@ -1068,12 +1031,10 @@ const updateDrawConfigs = () => {
 
 // 取消保存
 const cancelSave = () => {
-  showLegalDialog.value = false
 }
 
 // 确认保存
 const confirmSave = () => {
-  showLegalDialog.value = false
   drawStampUtils.saveStampAsPNG(512)
 }
 
@@ -1379,7 +1340,7 @@ watch(stampTypePresets, () => {
 
 // 打开提取印章工具网址
 const openExtractStampTool = () => {
-  window.open('https://xxss0903.github.io/extractstamp/', '_blank')
+  window.open('https://extractstamp.pages.dev/', '_blank')
 }
 
 // 修改字体预览更新函数
