@@ -883,6 +883,7 @@ const removeCompany = (index: number) => {
 }
 
 const saveStampAsPNG = () => {
+  drawStampUtils.saveStampAsPNG(512)
 }
 
 const drawStampWidth = ref(40)
@@ -1396,7 +1397,7 @@ const toggleGroup = (groupName: string) => {
   height: 90vh;
   overflow: hidden;
   gap: 0;
-  padding-top: 140px; /* 根据免责声明的实际高度调整 */
+  padding-top: 30px; /* 根据免责声明的实际高度调整 */
 }
 
 .editor-controls {
@@ -1614,7 +1615,6 @@ const toggleGroup = (groupName: string) => {
   align-items: center;
   padding: 20px;
   overflow: hidden;
-  padding-top: 40px; /* 根据免责声明的高度调整 */
 }
 
 canvas {
