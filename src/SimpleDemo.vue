@@ -5,16 +5,7 @@
   </template>
   <script setup lang="ts">
   import { ref, onMounted, watch } from 'vue'
-  import {
-    DrawStampUtils,
-    type ICode,
-    type ICompany,
-    type IDrawStar,
-    type IInnerCircle,
-    type ISecurityPattern,
-    type IStampType,
-    type ITaxNumber
-  } from './DrawStampUtils'
+  import { DrawStampUtils } from './DrawStampUtils'
   const stampCanvas = ref<HTMLCanvasElement | null>(null)
   const MM_PER_PIXEL = 10 // 毫米换算像素
 
