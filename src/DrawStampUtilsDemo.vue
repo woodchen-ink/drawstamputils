@@ -17,22 +17,6 @@
   </div>
 
   <div class="container" :class="{ 'has-warning': showSecurityWarning }">
-    <!-- 修改法律免责说明 -->
-    <div class="legal-disclaimer" 
-         v-if="showSecurityWarning"
-         :class="{ 'hidden': !showSecurityWarning }">
-      <div class="disclaimer-content">
-        <div class="warning-icon">⚠️</div>
-        <div class="warning-text">
-          <h3>{{ t('legal.securityWarning') }}</h3>
-          <p><strong>{{ t('legal.securityNotice') }}</strong></p>
-          <p>
-            <span style="white-space: pre-line">{{ t('legal.securityItems') }}</span>
-          </p>
-          <button class="close-warning" @click="showSecurityWarning = false">×</button>
-        </div>
-      </div>
-    </div>
     <EditorControls
       v-if="isDrawStampUtilsReady"
       ref="editorControls"
@@ -105,7 +89,6 @@ const editorControls = ref<InstanceType<typeof EditorControls> | null>(null)
 const stampCanvas = ref<any | null>(null)
 const MM_PER_PIXEL = 10 // 毫米换算像素
 
-const showLegalDialog = ref(false) // 是否显示法律提示弹窗
 const isDraggable = ref(false) // 是否开启拖动
 
 
@@ -259,7 +242,7 @@ watch(stampTypePresets, () => {
 
 // 打开提取印章工具网址
 const openExtractStampTool = () => {
-  window.open('https://extractstamp.pages.dev/', '_blank')
+  window.open('https://onepage.czl.net/tools/extractstamp/', '_blank')
 }
 
 // 修改字体预览更新函数
