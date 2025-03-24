@@ -693,7 +693,6 @@
   const roughEdgeProbability = ref(0.5) // 毛边概率
   const roughEdgeShift = ref(8) // 毛边偏移
   const roughEdgePoints = ref(360) // 毛边点数
-  const showLegalDialog = ref(false) // 是否显示法律提示弹窗
   // 添加印章类型列表的响式数据
   const stampTypeList = ref<IStampType[]>([
     {

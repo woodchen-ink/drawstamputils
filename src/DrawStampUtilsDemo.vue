@@ -1,21 +1,4 @@
 <template>
-  <!-- 添加法律提示弹窗 -->
-  <div v-if="showLegalDialog" class="legal-dialog-overlay">
-    <div class="legal-dialog">
-      <h3>⚠️ {{ t('legal.title') }}</h3>
-      <div class="legal-content">
-        <p><strong>{{ t('legal.warning') }}</strong></p>
-        <p>
-            <span style="white-space: pre-line">{{ t('legal.securityItems') }}</span>
-          </p>
-      </div>
-      <div class="dialog-buttons">
-        <button @click="cancelSave" class="cancel-button">{{ t('legal.cancel') }}</button>
-        <button @click="confirmSave" class="confirm-button">{{ t('legal.confirm') }}</button>
-      </div>
-    </div>
-  </div>
-
   <div class="container" :class="{ 'has-warning': showSecurityWarning }">
     <EditorControls
       v-if="isDrawStampUtilsReady"
@@ -35,7 +18,7 @@
           <span class="button-icon">📋</span>
           {{ t('stamp.template.open') }}
         </button>
-        <button class="toolbar-button" @click="saveStampAsPNG">
+        <button class="toolbar-button" @click="confirmSave">
           <span class="button-icon">💾</span>
           {{ t('stamp.save') }}
         </button>
@@ -122,19 +105,9 @@ const drawStamp = (refreshSecurityPattern: boolean = false, refreshOld: boolean 
   allTextPaths = [...companyTextPaths, ...codeTextPaths, ...stampTypeTextPaths, ...taxNumberTextPaths]
 }
 
-// 保存印章为PNG
-const saveStampAsPNG = () => {
-  showLegalDialog.value = true
-}
-
-// 取消保存
-const cancelSave = () => {
-}
-
 
 // 确认保存
 const confirmSave = () => {
-  showLegalDialog.value = false
   drawStampUtils.saveStampAsPNG()
 }
 
