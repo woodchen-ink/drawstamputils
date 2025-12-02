@@ -2,14 +2,14 @@
   <div v-if="show" class="template-dialog-overlay">
     <div class="template-dialog">
       <div class="template-dialog-header">
-        <h3>{{ t('stamp.template.title') }}</h3>
+        <h3>常用模板</h3>
         <button class="close-button" @click="onClose">×</button>
       </div>
       <div class="template-dialog-content">
         <div class="template-list">
           <!-- 默认模板 -->
           <div class="template-category">
-            <h4>{{ t('stamp.template.defaultTitle') }}</h4>
+            <h4>默认模板</h4>
             <div class="template-grid">
               <div v-for="(template, index) in templates" 
                    :key="'default-' + index" 
@@ -17,7 +17,7 @@
                    :class="{ 'active': currentIndex === (-1 - index) }"
                    @click="onSelectTemplate(template)">
                 <div class="template-preview">
-                  <img :src="template.preview" :alt="t('stamp.template.preview')" />
+                  <img :src="template.preview" alt="预览" />
                 </div>
                 <div class="template-info">
                   <span class="template-name">{{ template.name }}</span>
@@ -37,10 +37,10 @@
         />
         <div class="footer-buttons">
           <button class="load-template" @click="triggerTemplateLoad">
-            {{ t('stamp.template.load') }}
+            加载模板
           </button>
           <button class="add-template" @click="saveAsTemplate">
-            {{ t('stamp.template.save') }}
+            保存当前为模板
           </button>
         </div>
       </div>
@@ -50,10 +50,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useI18n } from 'vue-i18n'
 import { IDrawStampConfig } from '../DrawStampTypes'
-
-const { t } = useI18n()
 const templateFileInput = ref<HTMLInputElement | null>(null)
 
 interface Template {
@@ -131,7 +128,7 @@ const loadTemplateFile = async (event: Event) => {
     }
   } catch (error) {
     console.error('加载模板失败:', error)
-    alert(t('stamp.template.loadError'))
+    alert('加载模板失败')
   }
 
   // 清除文件选择

@@ -16,20 +16,20 @@
       <div class="bottom-toolbar">
         <button class="toolbar-button" @click="showTemplateDialog = true">
           <span class="button-icon">📋</span>
-          {{ t('stamp.template.open') }}
+          打开模板
         </button>
         <button class="toolbar-button" @click="confirmSave">
           <span class="button-icon">💾</span>
-          {{ t('stamp.save') }}
+          保存印章
         </button>
         <button class="toolbar-button" @click="openExtractStampTool">
           <span class="button-icon">🔍</span>
-          {{ t('stamp.extract.tool') }}
+          提取印章工具
         </button>
-        
+
         <!-- 添加拖动开关 -->
         <div class="drag-switch-container">
-          <span class="drag-label">{{ t('stamp.drag.label') }}</span>
+          <span class="drag-label">移动印章</span>
           <label class="switch">
             <input type="checkbox" v-model="isDraggable">
             <span class="slider round"></span>
@@ -58,13 +58,10 @@ import { ref, onMounted, watch, computed, onUnmounted } from 'vue'
 import {DrawStampUtils} from './DrawStampUtils'
 import { getSystemFonts } from './utils/fontUtils'
 import { ICode, ICompany, IDrawImage, IDrawStampConfig, IDrawStar, IInnerCircle, IRoughEdge, ISecurityPattern, IStampType, ITaxNumber } from './DrawStampTypes'
-import { useI18n } from 'vue-i18n'
 import stampTemplate1 from './assets/templates/stamp_template1.json'
 import stampTemplate2 from './assets/templates/stamp_template2.json'
 import EditorControls from './EditorControls.vue'
 import TemplateDialog from './components/TemplateDialog.vue'
-
-const { t } = useI18n()
 // 添加一个标志来控制 EditorControls 的加载
 const isDrawStampUtilsReady = ref(false)
 
@@ -555,7 +552,10 @@ watch(isDraggable, (newValue) => {
 /* 修改容器样式 */
 .container {
   display: flex;
-  background-color: #f5f5f5;
+  background-color: transparent;
+  width: 100%;
+  height: 100vh;
+  align-items: stretch;
 }
 
 /* 修改 Canvas 容器样式 */
@@ -563,8 +563,13 @@ watch(isDraggable, (newValue) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   padding: 20px;
   flex: 1;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
 }
 
 .canvas-wrapper {

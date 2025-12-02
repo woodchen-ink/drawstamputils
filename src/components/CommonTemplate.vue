@@ -1,26 +1,26 @@
 <template>
   <div class="template-panel">
     <div class="template-header">
-      <h3>{{ t('stamp.template.title') }}</h3>
+      <h3>常用模板</h3>
       <button class="add-template" @click="saveCurrentAsTemplate">
-        <span>+</span> {{ t('stamp.template.save') }}
+        <span>+</span> 保存当前为模板
       </button>
     </div>
     
     <div class="template-list">
       <!-- 默认模板 -->
       <div class="template-category">
-        <h4>{{ t('stamp.template.defaultTitle') }}</h4>
+        <h4>默认模板</h4>
         <div v-for="(template, index) in defaultTemplates" 
              :key="'default-' + index" 
              class="template-item"
              :class="{ 'active': currentTemplateIndex === (-1 - index) }"
              @click="handleTemplateClick(template, index)">
           <div class="template-preview">
-            <img :src="template.preview" :alt="t('stamp.template.preview')" />
+            <img :src="template.preview" alt="预览" />
           </div>
           <div class="template-info">
-            <span class="template-name">{{ t('stamp.template.name') }}: {{ template.name }}</span>
+            <span class="template-name">模板名称: {{ template.name }}</span>
           </div>
         </div>
       </div>
@@ -29,14 +29,11 @@
 </template>
 
 <script setup lang="ts">
-import { useI18n } from 'vue-i18n'
 import { IDrawStampConfig } from '../DrawStampTypes'
 import { onMounted, ref } from 'vue'
 import { DrawStampUtils } from '../DrawStampUtils'
 import stampTemplate1 from '../assets/templates/stamp_template1.json'
 import stampTemplate2 from '../assets/templates/stamp_template2.json'
-
-const { t } = useI18n()
 
 interface Template {
   name: string

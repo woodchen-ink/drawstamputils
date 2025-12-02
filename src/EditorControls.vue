@@ -1,36 +1,36 @@
-<template>
-    <div class="container" :class="{ 'has-warning': showSecurityWarning }">
+  <template>
+    <div class="editor-panel" :class="{ 'has-warning': showSecurityWarning }">
       <div class="editor-controls" ref="editorControls">
         <!-- 印章基本设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('basic')">
-            <h3>{{ t('stamp.basic.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.basic }">▼</span></h3>
+            <h3>印章基本设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.basic }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.basic">
             <label class="checkbox-label">
               <input type="checkbox" v-model="isCircleDetect" />
-              {{ t('stamp.basic.extractCircle') }}
+              提取圆形印章
             </label>
             <label>
-              {{ t('stamp.basic.width') }}:
+              印章宽度 (mm):
               <input type="number" v-model.number="drawStampWidth" min="1" max="50" step="1" />
             </label>
             <label>
-              {{ t('stamp.basic.height') }}:
+              印章高度 (mm):
               <input type="number" v-model.number="drawStampHeight" min="1" max="50" step="1" />
             </label>
             <label>
-              {{ t('stamp.basic.borderWidth') }}: <input type="number" step="0.1" v-model.number="circleBorderWidth" />
+              圆形边框宽度 (mm): <input type="number" step="0.1" v-model.number="circleBorderWidth" />
             </label>
             <label>
-              {{ t('stamp.basic.color') }}: <input type="color" v-model="primaryColor" />
+              印章颜色: <input type="color" v-model="primaryColor" />
             </label>
             <label class="checkbox-label">
               <input type="checkbox" v-model="drawOutBorder" />
-              {{ t('stamp.outBorder.enable') }}
+              显示外圈边框
             </label>
             <label v-if="drawOutBorder">
-              {{ t('stamp.outBorder.lineWidth') }}:
+              边框宽度 (mm):
               <input type="number" v-model.number="outBorderLineWidth" min="0.1" max="5" step="0.1" />
             </label>
           </div>
@@ -39,20 +39,20 @@
         <!-- 公司名称设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('company')">
-            <h3>{{ t('stamp.company.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.company }">▼</span></h3>
+            <h3>公司名称列表设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.company }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.company">
             <div v-for="(company, index) in companyList" :key="index" class="company-item">
               <div class="company-header">
-                <span>{{ t('stamp.common.line', { index: index + 1 }) }}</span>
-                <button class="small-button delete-button" @click="removeCompany(index)">{{ t('stamp.common.delete') }}</button>
+                <span>第 {{ index + 1 }} 行</span>
+                <button class="small-button delete-button" @click="removeCompany(index)">删除</button>
               </div>
               <label>
-                {{ t('stamp.company.name') }}:
+                公司名称:
                 <input type="text" v-model="company.companyName" />
               </label>
               <label>
-                {{ t('stamp.company.font') }}:
+                字体:
                 <div class="font-input-group">
                   <select
                     v-model="company.fontFamily"
@@ -73,19 +73,19 @@
                     v-model="company.fontFamily"
                     class="font-input"
                     @input="updateFontPreview"
-                    :placeholder="t('stamp.common.fontPlaceholder')"
+                    placeholder="输入字体名称"
                   />
                 </div>
               </label>
               <label>
-                {{ t('stamp.company.fontSize') }}:
+                字体大小 (mm):
                 <input type="number" v-model.number="company.fontHeight" min="1" max="10" step="0.1" />
               </label>
               <label>
-                {{ t('stamp.company.fontWeight') }}:
+                字体粗细:
                 <select v-model="company.fontWeight">
-                  <option value="normal">{{ t('stamp.common.fontWeight.normal') }}</option>
-                  <option value="bold">{{ t('stamp.common.fontWeight.bold') }}</option>
+                  <option value="normal">正常</option>
+                  <option value="bold">粗体</option>
                   <option value="100">100</option>
                   <option value="200">200</option>
                   <option value="300">300</option>
@@ -98,7 +98,7 @@
                 </select>
               </label>
               <label>
-                {{ t('stamp.company.compression') }}:
+                压缩比例:
                 <input
                   type="range"
                   v-model.number="company.compression"
@@ -109,7 +109,7 @@
                 <span>{{ company.compression.toFixed(2) }}</span>
               </label>
               <label>
-                {{ t('stamp.company.distribution') }}:
+                分布因子:
                 <input
                   type="range"
                   v-model.number="company.textDistributionFactor"
@@ -120,11 +120,11 @@
                 <span>{{ company.textDistributionFactor.toFixed(2) }}</span>
               </label>
               <label>
-                {{ t('stamp.company.margin') }}:
+                边距 (mm):
                 <input type="number" v-model.number="company.borderOffset" min="-10" max="10" step="0.05" />
               </label>
               <label>
-                {{ t('stamp.company.startAngle') }}:
+                起始角度 (°):
                 <div class="range-container">
                   <input
                     type="range"
@@ -137,39 +137,39 @@
                 </div>
               </label>
               <label>
-                {{ t('stamp.company.rotateDirection') }}:
+                旋转方向:
                 <select v-model="company.rotateDirection">
-                  <option value="clockwise">{{ t('stamp.company.clockwise') }}</option>
-                  <option value="counterclockwise">{{ t('stamp.company.counterclockwise') }}</option>
+                  <option value="clockwise">顺时针</option>
+                  <option value="counterclockwise">逆时针</option>
                 </select>
               </label>
             </div>
-            <button class="add-button" @click="addNewCompany">{{ t('stamp.common.addNew') }}</button>
+            <button class="add-button" @click="addNewCompany">添加新行</button>
           </div>
         </div>
   
         <!-- 印章类型设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('stampType')">
-            <h3>{{ t('stamp.stampType.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.stampType }">▼</span></h3>
+            <h3>印章类型列表设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.stampType }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.stampType">
 
             <div v-for="(type, index) in stampTypeList" :key="index" class="stamp-type-item">
               <div class="stamp-type-header">
-                <span>{{ t('stamp.stampType.line', { index: index + 1 }) }}</span>
-                <button class="small-button delete-button" @click="removeStampType(index)">{{ t('stamp.stampType.delete') }}</button>
+                <span>第 {{ index + 1 }} 行</span>
+                <button class="small-button delete-button" @click="removeStampType(index)">删除</button>
               </div>
               <label>
-                {{ t('stamp.stampType.type') }}:
+                文字内容:
                 <input type="text" v-model="type.stampType" />
               </label>
               <label>
-                {{ t('stamp.stampType.fontSize') }}:
+                字体大小 (mm):
                 <input type="number" v-model.number="type.fontHeight" min="1" max="10" step="0.1" />
               </label>
               <label>
-                {{ t('stamp.stampType.font') }}:
+                字体:
                 <div class="font-input-group">
                   <input
                     type="text"
@@ -187,7 +187,7 @@
                 </div>
               </label>
               <label>
-                {{ t('stamp.stampType.fontWeight') }}:
+                字体粗细:
                 <select v-model="type.fontWeight">
                   <option value="normal">正常</option>
                   <option value="bold">粗体</option>
@@ -203,7 +203,7 @@
                 </select>
               </label>
               <label>
-                {{ t('stamp.stampType.compression') }}:
+                压缩比例:
                 <input
                   type="range"
                   v-model.number="type.compression"
@@ -214,7 +214,7 @@
                 <span>{{ type.compression.toFixed(2) }}</span>
               </label>
               <label>
-                {{ t('stamp.stampType.letterSpacing') }}:
+                字符间距 (mm):
                 <input
                   type="range"
                   v-model.number="type.letterSpacing"
@@ -225,7 +225,7 @@
                 <span>{{ type.letterSpacing.toFixed(2) }}</span>
               </label>
               <label>
-                {{ t('stamp.stampType.verticalPosition') }}:
+                垂直位置 (mm):
                 <input
                   type="number"
                   v-model.number="type.positionY"
@@ -235,20 +235,20 @@
                 />
               </label>
             </div>
-            <button class="add-button" @click="addNewStampType">{{ t('stamp.stampType.addNew') }}</button>
+            <button class="add-button" @click="addNewStampType">添加新行</button>
           </div>
         </div>
   
         <!-- 印章编码设置 -->
         <div class="control-group stamp-code-group">
           <div class="group-header" @click="toggleGroup('code')">
-            <h3>{{ t('stamp.code.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.code }">▼</span></h3>
+            <h3>印章编码设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.code }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.code">
 
-            <label>{{ t('stamp.code.code') }}: <input v-model="stampCode" /></label>
+            <label>印章编码: <input v-model="stampCode" /></label>
             <label>
-              {{ t('stamp.code.font') }}:
+              字体:
               <div class="font-input-group">
                 <select
                   v-model="codeFontFamily"
@@ -274,13 +274,13 @@
               </div>
             </label>
             <label>
-              {{ t('stamp.code.fontSize') }}: <input type="number" v-model.number="codeFontSizeMM" step="0.1" />
+              字体大小 (mm): <input type="number" v-model.number="codeFontSizeMM" step="0.1" />
             </label>
             <label>
-              {{ t('stamp.code.fontWeight') }}:
+              字体粗细:
               <select v-model="codeFontWeight">
-                <option value="normal">{{ t('stamp.common.fontWeight.normal') }}</option>
-                <option value="bold">{{ t('stamp.common.fontWeight.bold') }}</option>
+                <option value="normal">正常</option>
+                <option value="bold">粗体</option>
                 <option value="100">100</option>
                 <option value="200">200</option>
                 <option value="300">300</option>
@@ -293,11 +293,11 @@
               </select>
             </label>
             <label>
-              <span>{{ t('stamp.common.compression', { value: codeCompression.toFixed(2) }) }}</span>
+              <span>压缩比例：{{ codeCompression.toFixed(2) }}</span>
               <input type="range" v-model.number="codeCompression" min="0.0" max="3" step="0.01" />
             </label>
             <label>
-              <span>{{ t('stamp.common.distribution', { value: codeDistributionFactor.toFixed(1) }) }}</span>
+              <span>分布因子：{{ codeDistributionFactor.toFixed(1) }}</span>
               <input
                 type="range"
                 v-model.number="codeDistributionFactor"
@@ -307,7 +307,7 @@
               />
             </label>
             <label>
-              {{ t('stamp.code.margin') }}:
+              边距 (mm):
               <input type="number" v-model.number="codeMarginMM" min="-10" max="20" step="0.05" />
             </label>
           </div>
@@ -316,13 +316,13 @@
         <!-- 税号设置 -->
         <div class="control-group tax-number-group">
           <div class="group-header" @click="toggleGroup('taxNumber')">
-            <h3>{{ t('stamp.taxNumber.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.taxNumber }">▼</span></h3>
+            <h3>中间数字设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.taxNumber }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.taxNumber">
 
-            <label>{{ t('stamp.taxNumber.number') }}: <input v-model="taxNumberValue" /></label>
+            <label>数字: <input v-model="taxNumberValue" /></label>
             <label>
-              {{ t('stamp.taxNumber.font') }}:
+              字体:
               <div class="font-input-group">
                 <select
                   v-model="taxNumberFontFamily"
@@ -348,7 +348,7 @@
               </div>
             </label>
             <label>
-              {{ t('stamp.taxNumber.fontWeight') }}:
+              字体粗细:
               <select v-model="taxNumberFontWeight">
                 <option value="normal">正常</option>
                 <option value="bold">粗体</option>
@@ -364,11 +364,11 @@
               </select>
             </label>
             <label>
-              <span>{{ t('stamp.common.compression', { value: taxNumberCompression.toFixed(2) }) }}</span>
+              <span>压缩比例：{{ taxNumberCompression.toFixed(2) }}</span>
               <input type="range" v-model.number="taxNumberCompression" min="0.0" max="3" step="0.01" />
             </label>
             <label>
-              <span>{{ t('stamp.common.letterSpacing', { value: taxNumberLetterSpacing.toFixed(2) }) }}</span>
+              <span>字符间距：{{ taxNumberLetterSpacing.toFixed(2) }} mm</span>
               <input
                 type="range"
                 v-model.number="taxNumberLetterSpacing"
@@ -378,7 +378,7 @@
               />
             </label>
             <label>
-              <span>{{ t('stamp.common.verticalPosition', { value: taxNumberPositionY.toFixed(1) }) }}</span>
+              <span>垂直位置：{{ taxNumberPositionY.toFixed(1) }} mm</span>
               <input type="range" v-model.number="taxNumberPositionY" min="-10" max="10" step="0.1" />
             </label>
           </div>
@@ -387,65 +387,65 @@
         <!-- 图片列表设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('images')">
-            <h3>{{ t('stamp.images.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.images }">▼</span></h3>
+            <h3>图片列表设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.images }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.images">
 
             <div v-for="(image, index) in imageList" :key="index" class="image-item">
               <div class="image-header">
-                <span>{{ t('stamp.images.image', { index: index + 1 }) }}</span>
+                <span>图片 {{ index + 1 }}</span>
                 <button class="small-button delete-button" @click="removeImage(index)">删除</button>
               </div>
               <div class="image-preview" v-if="image.imageUrl">
-                <img :src="image.imageUrl" :alt="t('stamp.common.preview')" />
+                <img :src="image.imageUrl" alt="预览图片" />
               </div>
               <label>
-                {{ t('stamp.images.select') }}:
+                选择图片:
                 <input type="file" @change="(e) => handleImageUpload(e, index)" accept="image/*" />
               </label>
               <label>
-                {{ t('stamp.images.width') }}:
+                图片宽度 (mm):
                 <input type="number" v-model.number="image.imageWidth" min="1" max="100" step="0.5" />
               </label>
               <label>
-                {{ t('stamp.images.height') }}:
+                图片高度 (mm):
                 <input type="number" v-model.number="image.imageHeight" min="1" max="100" step="0.5" />
               </label>
               <label>
-                {{ t('stamp.images.positionX') }}:
+                水平位置 (mm):
                 <input type="number" v-model.number="image.positionX" min="-20" max="20" step="0.5" />
               </label>
               <label>
-                {{ t('stamp.images.positionY') }}:
+                垂直位置 (mm):
                 <input type="number" v-model.number="image.positionY" min="-20" max="20" step="0.5" />
               </label>
               <label class="checkbox-label">
                 <input type="checkbox" v-model="image.keepAspectRatio" />
-                {{ t('stamp.images.keepRatio') }}
+                保持宽高比
               </label>
             </div>
-            <button class="add-button" @click="addNewImage">{{ t('stamp.common.addNew') }}</button>
+            <button class="add-button" @click="addNewImage">添加新行</button>
           </div>
         </div>
   
         <!-- 五角星设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('star')">
-            <h3>{{ t('stamp.star.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.star }">▼</span></h3>
+            <h3>五角星设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.star }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.star">
 
             <label class="checkbox-label">
               <input type="checkbox" v-model="shouldDrawStar" />
-              {{ t('stamp.star.enable') }}
+              绘制五角星
             </label>
             <div v-if="shouldDrawStar">
               <label>
-                {{ t('stamp.star.diameter') }}:
+                五角星直径 (mm):
                 <input type="number" v-model.number="starDiameter" step="0.1" />
               </label>
               <label>
-                {{ t('stamp.star.verticalPosition') }}:
+                垂直位置 (mm):
                 <input type="number" v-model.number="starPositionY" min="-10" max="10" step="0.1" />
               </label>
             </div>
@@ -454,25 +454,25 @@
         <!-- 防伪纹路设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('security')">
-            <h3>{{ t('stamp.security.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.security }">▼</span></h3>
+            <h3>防伪纹路设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.security }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.security">
 
             <label>
-              {{ t('stamp.security.enable') }}:
+              启用防伪纹路:
               <input type="checkbox" v-model="securityPatternEnabled" />
             </label>
-            <button @click="drawStamp(true, false)">{{ t('stamp.security.refresh') }}</button>
+            <button @click="drawStamp(true, false)">刷新纹路</button>
             <label
-              >{{ t('stamp.security.count') }}:
+              >纹路数量:
               <input type="range" v-model.number="securityPatternCount" min="1" max="100" step="1"
             /></label>
             <label
-              >{{ t('stamp.security.length') }}:
+              >纹路长度 (mm):
               <input type="range" v-model.number="securityPatternLength" min="0.1" max="100" step="0.1"
             /></label>
             <label
-              >{{ t('stamp.security.width') }}:
+              >纹路宽度 (mm):
               <input
                 type="range"
                 v-model.number="securityPatternWidth"
@@ -486,60 +486,60 @@
         <!-- 毛边效果设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('roughEdge')">
-            <h3>{{ t('stamp.roughEdge.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.roughEdge }">▼</span></h3>
+            <h3>毛边效果设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.roughEdge }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.roughEdge">
 
             <label class="checkbox-label">
               <input type="checkbox" v-model="shouldDrawRoughEdge" />
-              {{ t('stamp.roughEdge.enable') }}
+              启用毛边效果
             </label>
             <label v-if="shouldDrawRoughEdge">
-              {{ t('stamp.roughEdge.width') }}:
+              毛边宽度 (mm):
               <input type="range" v-model.number="roughEdgeWidth" min="0.05" max="0.5" step="0.05" />
               <span>{{ roughEdgeWidth.toFixed(2) }}</span>
             </label>
             <label v-if="shouldDrawRoughEdge">
-              {{ t('stamp.roughEdge.height') }}:
+              毛边高度 (mm):
               <input type="range" v-model.number="roughEdgeHeight" min="0.1" max="5" step="0.1" />
               <span>{{ roughEdgeHeight.toFixed(1) }}</span>
             </label>
             <label v-if="shouldDrawRoughEdge">
-              {{ t('stamp.roughEdge.probability') }}:
+              毛边概率:
               <input type="range" v-model.number="roughEdgeProbability" min="0" max="1" step="0.01" />
               <span>{{ roughEdgeProbability.toFixed(2) }}</span>
             </label>
             <label v-if="shouldDrawRoughEdge">
-              {{ t('stamp.roughEdge.shift') }}:
+              毛边偏移 (mm):
               <input type="range" v-model.number="roughEdgeShift" min="-10" max="10" step="0.01" />
               <span>{{ roughEdgeShift.toFixed(2) }}</span>
             </label>
             <label v-if="shouldDrawRoughEdge">
-              {{ t('stamp.roughEdge.points') }}:
+              毛边点数:
               <input type="range" v-model.number="roughEdgePoints" min="100" max="1000" step="10" />
               <span>{{ roughEdgePoints }}</span>
             </label>
-            <button @click="drawStamp(false, false, true)">{{ t('stamp.roughEdge.refresh') }}</button>
+            <button @click="drawStamp(false, false, true)">刷新毛边</button>
           </div>
         </div>
   
         <!-- 做旧效果设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('aging')">
-            <h3>{{ t('stamp.aging.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.aging }">▼</span></h3>
+            <h3>做旧效果<span class="expand-icon" :class="{ 'expanded': expandedGroups.aging }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.aging">
 
             <label class="checkbox-label">
               <input type="checkbox" v-model="applyAging" @change="updateAgingEffect" />
-              {{ t('stamp.aging.enable') }}
+              启用做旧效果
             </label>
             <label class="checkbox-label">
               <input type="checkbox" v-model="manualAging" @change="updateAgingEffect" />
-              {{ t('stamp.aging.manual') }}
+              手动做旧
             </label>
             <label v-if="applyAging">
-              {{ t('stamp.aging.intensity') }}:
+              做旧强度:
               <input 
                 type="range" 
                 v-model.number="agingIntensity" 
@@ -551,7 +551,7 @@
               <span>{{ agingIntensity }}%</span>
             </label>
             <button @click="refreshAgingEffect" class="refresh-button">
-              {{ t('stamp.aging.refresh') }}
+              刷新做旧
             </button>
           </div>
         </div>
@@ -559,25 +559,25 @@
         <!-- 内圈圆形设置 -->
         <div class="control-group">
           <div class="group-header" @click="toggleGroup('innerCircle')">
-            <h3>{{ t('stamp.innerCircle.title') }}<span class="expand-icon" :class="{ 'expanded': expandedGroups.innerCircle }">▼</span></h3>
+            <h3>内圈圆形设置<span class="expand-icon" :class="{ 'expanded': expandedGroups.innerCircle }">▼</span></h3>
           </div>
           <div class="group-content" v-show="expandedGroups.innerCircle">
-            <button @click="addNewInnerCircle">{{ t('stamp.innerCircle.addNew') }}</button>
+            <button @click="addNewInnerCircle">新增</button>
             <div v-for="(innerCircle, index) in innerCircleList" :key="index" class="inner-circle-item">
               <div class="inner-circle-header">
                 <span>第 {{ index + 1 }} 行</span>
                 <button class="small-button delete-button" @click="removeInnerCircle(index)">删除</button>
               </div>
               <label>
-                {{ t('stamp.innerCircle.lineWidth') }}:
+                内圈圆线宽 (mm):
                 <input type="number" v-model.number="innerCircle.innerCircleLineWidth" min="0.05" max="0.5" step="0.05" />
               </label>
               <label>
-                {{ t('stamp.innerCircle.radiusX') }}:
+                内圈圆半径X (mm):
                 <input type="number" v-model.number="innerCircle.innerCircleLineRadiusX" min="1" max="50" step="0.1" />
               </label>
               <label>
-                {{ t('stamp.innerCircle.radiusY') }}:
+                内圈圆半径Y (mm):
                 <input type="number" v-model.number="innerCircle.innerCircleLineRadiusY" min="1" max="50" step="0.1" />
               </label>
             </div>
@@ -591,9 +591,6 @@
   import {DrawStampUtils} from './DrawStampUtils'
   import { getSystemFonts } from './utils/fontUtils'
   import { ICode, ICompany, IDrawImage, IDrawStampConfig, IDrawStar, IInnerCircle, IRoughEdge, ISecurityPattern, IStampType, ITaxNumber } from './DrawStampTypes'
-  import { useI18n } from 'vue-i18n'
-  
-  const { t } = useI18n()
   
   const editorControls = ref<HTMLDivElement | null>(null)
 
